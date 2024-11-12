@@ -1,0 +1,25 @@
+{
+  "name": "hummus",
+  "version": "1.0.0",
+  "description": "A website about Hummus for our IS 403 Class (2024)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ISFall-2024-Team3-6/hummus.git"
+  },
+  "author": "Team 3-6",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ISFall-2024-Team3-6/hummus/issues"
+  },
+  "homepage": "https://github.com/ISFall-2024-Team3-6/hummus#readme",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "knex": "^3.1.0",
+    "pg": "^8.13.1"
+  }
+}
