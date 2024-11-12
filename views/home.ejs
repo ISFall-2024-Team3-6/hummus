@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account & Product List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      margin: 0;
+    }
+    .create-account-container {
+      width: 350px;
+      padding: 20px;
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .create-account-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .create-account-container label {
+      font-size: 0.9em;
+      color: #333;
+      display: block;
+      margin-top: 10px;
+    }
+    .create-account-container input[type="text"],
+    .create-account-container input[type="password"],
+    .create-account-container input[type="date"],
+    .create-account-container input[type="email"],
+    .create-account-container input[type="tel"] {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    .create-account-container input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1em;
+      margin-top: 15px;
+    }
+    .create-account-container input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+    .create-account-container .back-to-login {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      font-size: 0.9em;
+      color: #333;
+      text-decoration: none;
+    }
+    .create-account-container .back-to-login:hover {
+      color: #4CAF50;
+    }
+
+    /* Product table styles */
+    .product-table-container {
+      width: 90%;
+      max-width: 800px;
+      padding: 20px;
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    .product-table-container h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="product-table-container">
+    <h2>Product List</h2>
+    <table>
+      <tr>
+        <th>Product Name</th>
+        <th>Price</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>Product 1</td>
+        <td>$10.00</td>
+        <td>Sample description of Product 1.</td>
+      </tr>
+      <tr>
+        <td>Product 2</td>
+        <td>$15.00</td>
+        <td>Sample description of Product 2.</td>
+      </tr>
+      <tr>
+        <td>Product 3</td>
+        <td>$20.00</td>
+        <td>Sample description of Product 3.</td>
+      </tr>
+    </table>
+  </div>
+
+</body>
+</html>
