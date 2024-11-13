@@ -25,12 +25,12 @@ const knex = require("knex") ({
 
 app.get("/", (req, res) =>
 {
-    knex.select().from('pokemon').orderBy('description').then( pokes => {
-        res.render("index", { pokemon: pokes });
-    }).catch(err => {
-        console.log(err);
-        res.status(500).json({err});
-    });
+    // knex.select().from('pokemon').orderBy('description').then( pokes => {
+    //     res.render("index", { pokemon: pokes });
+    // }).catch(err => {
+    //     console.log(err);
+    //     res.status(500).json({err});
+    // });
 });
 
 
