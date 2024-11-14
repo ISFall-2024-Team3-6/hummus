@@ -106,6 +106,18 @@
     tr:nth-child(even) {
       background-color: #f9f9f9;
     }
+    .heart-button {
+      font-size: 24px;
+      color: #ddd;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      transition: color 0.3s ease;
+    }
+    .heart-button.filled {
+      color: #ff6666;
+    }
   </style>
 </head>
 <body>
@@ -114,24 +126,28 @@
     <table>
       <tr>
         <th>Favorite</th>
-        <th>Product Name</th>
-        <th>Price</th>
+        <th>Hummus Name</th>
         <th>Description</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th>Retail Price</th>
+        <th>Serving Size</th>
+        <th>Brand Name</th>
+        <th>Rating</th>
       </tr>
       <!-- Create a for loop to display all the data from the database in a format similar to this -->
-      <tr>
-        <td>
-          <button>Favorite</button>
-        </td>
-        <td>Product 1</td>
-        <td>$10.00</td>
-        <td>Sample description of Product 1.</td>
-      </tr>
+       <% for (let i = 0; i < hummus.length; i++)
+       { %>
+        <tr>
+          <td>
+            <button class="heart-button">&#9829;</button>        
+          </td>
+          <td><%= hummus[i].name %></td>
+          <td><%= hummus[i].description %></td>
+          <td><%= hummus[i].retail_price %></td>
+          <td><%= hummus[i].serving_size %></td>
+          <td><%= hummus[i].brand_name %></td>
+          <td><%= hummus[i].rating %></td>
+        </tr>
+       <%}%>
     </table>
   </div>
 
