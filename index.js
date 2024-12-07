@@ -29,7 +29,7 @@ app.use(session({
 const knex = require("knex") ({
     client : "pg",
     connection : {
-        host : process.env.RDS_HOSTNAME || "localhost",
+        host : process.env.RDS_HOSTNAME || "awseb-e-94ri3wcgd2-stack-awsebrdsdatabase-5xz6zugqzser.cp6ss68iifrg.us-east-1.rds.amazonaws.com",
         user : process.env.RDS_USERNAME || "hummusUser",
         password : process.env.RDS_PASSWORD || "Thisisforproject3!",
         database : process.env.RDS_DB_NAME || "ebdb",
