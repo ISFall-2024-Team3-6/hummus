@@ -1,87 +1,80 @@
+<!-- This is the homepage that shows all the hummus types  -->
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hummus Is Great</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="/style/styles.css">
+</head>
+<body>
 
-        <style>
-            body {
-              font-family: Arial, sans-serif;
-              background-color: #f4f4f4;
-              margin: 0;
-              padding: 0;
-            }
-            .welcome-label {
-              position: absolute;
-              top: 20px;
-              left: 50%;
-              transform: translateX(-50%);
-              text-align: center;
-              font-size: 2em;
-              font-weight: bold;
-              color: #333;
-            }
-            .forms-container {
-              display: flex;
-              justify-content: center;
-              gap: 40px;
-              margin-top: 100px;
-            }
-            form {
-              width: 300px;
-              padding: 20px;
-              background-color: #ffffff;
-              border: 1px solid #ddd;
-              border-radius: 5px;
-              box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            }
-            form label {
-              display: block;
-              font-size: 1em;
-              color: #333;
-              margin-bottom: 10px;
-            }
-            form input[type="text"] {
-              width: 100%;
-              padding: 8px;
-              margin: 10px 0;
-              border: 1px solid #ddd;
-              border-radius: 4px;
-              box-sizing: border-box;
-            }
-            form button {
-              width: 100%;
-              padding: 10px;
-              background-color: #4CAF50;
-              color: white;
-              border: none;
-              border-radius: 4px;
-              cursor: pointer;
-              font-size: 1em;
-            }
-            form button:hover {
-              background-color: #45a049;
-            }
-        </style>
-    </head>
-    
-    <body>
-        <label class="welcome-label">WELCOME TO HUMMUS!</label>
-        
-        <div class="forms-container">
-            <form action="/searchUsername" method="get">
-                <label>Please Enter Your Username and Password</label>
-                <input type="text" id="searchUsername" name="searchUserName" placeholder="Username">
-                <input type="text" id="searchPassword" name="searchPassword" placeholder="Password">
-                <button type="submit">Login</button>
-            </form>
-            
-            <form>
-                <label>Don't Already Have an Account? Create One Here!</label>
-                <button type="submit" id="createAccount" name="createAccount">Create Account</button>
-            </form>
-        </div>
-    </body>
+<!-- Navigation bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Hummus Project</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+      <!-- This is the beginning of the "list" of items in our navigation bar -->
+      <ul class="navbar-nav">
+
+        <!-- This is the button to go back to the home page -->
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+      </ul>
+
+      <!-- This last form is a link to the donation page, which is our call to action to every user that visits
+       the page -->
+      <form action="/login" method="GET" class="d-inline ms-auto">
+        <button type="submit" class="btn btn-lg">Login</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <p>
+    Hummus is a delicious and nutritious food that is enjoyed by many people around the world. It is made from chickpeas, tahini, olive oil, lemon juice, and garlic. Hummus is a great source of protein, fiber, and healthy fats. It is also low in calories and can be enjoyed as a snack or a meal. There are many different types of hummus available, including traditional, roasted red pepper, and garlic. Hummus is a versatile food that can be enjoyed in many different ways, such as with pita bread, vegetables, or as a spread on sandwiches. If you are looking for a healthy and delicious snack, hummus is a great choice!
+  </p>
+
+  <p> 
+    If you are a hummus lover, you have come to the right place! Here you will find a list of all the different types of hummus available, including their retail price, serving size, and brand name. Whether you are looking for a traditional hummus or a more exotic flavor, you are sure to find something that you will love. So go ahead and explore the world of hummus and discover all the delicious options that are available to you!
+  </p>
+
+  <p>
+    You can also create an account and log in to save your favorite hummus types. So what are you waiting for? Start exploring the world of hummus today and discover all the delicious options that are available to you!
+  </p>
+</div>
+<!-- This is the main content of the page -->
+  <div class="container">
+    <h2>Hummus List</h2>
+    <table>
+      <tr>
+        <th>Hummus Name</th>
+        <th>Description</th>
+        <th>Retail Price</th>
+        <th>Serving Size</th>
+        <th>Brand Name</th>
+      </tr>
+      <!-- Create a for loop to display all the data from the database in a format similar to this -->
+       <% for (let i = 0; i < hummus.length; i++)
+       { %>
+        <tr>
+          <td><%= hummus[i].name %></td>
+          <td><%= hummus[i].description %></td>
+          <td><%= hummus[i].retail_price %></td>
+          <td><%= hummus[i].serving_size %></td>
+          <td><%= hummus[i].brand_name %></td>
+        </tr>
+       <%}%>
+    </table>
+  </div>
+
+</body>
 </html>

@@ -1,9 +1,11 @@
+<!-- This is to show the  -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Account & Product List</title>
+  <title>List</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -136,9 +138,11 @@
       <!-- Create a for loop to display all the data from the database in a format similar to this -->
        <% for (let i = 0; i < hummus.length; i++)
        { %>
+        <form action="/favorite">
+        <input type="hidden" name="hummus_id" value="<%= hummus[i].hummusid %>">
         <tr>
           <td>
-            <button class="heart-button">&#9829;</button>        
+            <button type="submit" class="heart-button">&#9829;</button>        
           </td>
           <td><%= hummus[i].name %></td>
           <td><%= hummus[i].description %></td>
@@ -147,6 +151,7 @@
           <td><%= hummus[i].brand_name %></td>
           <td><%= hummus[i].rating %></td>
         </tr>
+        </form>
        <%}%>
     </table>
   </div>
