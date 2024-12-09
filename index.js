@@ -42,12 +42,69 @@ app.get("/", (req, res) =>
 {
     try
     {
-        res.render("index");
+        res.render("index", {hummus: []});
     }
     catch (err)
     {
         console.log(err);
         res.status(500).send("An error occurred");
+    }
+});
+
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+app.post('/login', async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    try {
+        // Query the user table to find the record
+        const user = await knex('') // TODO change to correct table
+            .select('*')
+            .where({ username }) // Find user by username
+            .first(); // Returns the first matching record
+  
+        if (user && user.password === password) { // Replace with hashed password comparison in production
+            req.session.loggedIn = true;
+            req.session.username = username;
+            res.render('home', { user : req.session.loggedIn });
+  
+        } else {
+          req.session.loggedIn = false;
+            res.render('login', { error: 'Invalid credentials' }); // Render login page with error
+        }
+    } catch (error) {
+        res.status(500).send('Database query failed: ' + error.message);
+    }
+});
+
+app.get('/createUser', (req, res) => {
+    res.render('createAccount');
+});
+
+app.post('/createUser', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        const user = await knex('users').where({ username }).first();
+        if (user) {
+            return res.status(400).send('User already exists');
+        }
+        await knex('users').insert({ username, password });
+        res.redirect('/login');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+app.get('/home', (req, res) => {
+    if (req.session.loggedIn) {
+        knex.select('*').from('hummus').then(data => {
+            res.render('home', {hummus: data});
+        });
+    } else {
+        res.redirect('/login');
     }
 });
 
