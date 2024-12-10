@@ -19,10 +19,11 @@
   "homepage": "https://github.com/ISFall-2024-Team3-6/hummus#readme",
   "dependencies": {
     "ejs": "^3.1.10",
-    "express": "^4.21.1",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "i": "^0.3.7",
     "knex": "^3.1.0",
-    "pg": "^8.13.1",
-    "express-session": "^1.18.1"
+    "pg": "^8.13.1"
   },
   "devDependencies": {
     "mocha": "^10.8.2"
