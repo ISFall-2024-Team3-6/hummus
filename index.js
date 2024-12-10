@@ -39,6 +39,11 @@ const knex = require("knex") ({
     }
 })
 
+
+app.get('/about/', (req, res) => {
+  res.render('about')
+});
+
 app.get("/", async (req, res) =>
 {
     try
