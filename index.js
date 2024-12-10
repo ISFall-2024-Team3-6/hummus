@@ -235,6 +235,7 @@ app.post("/createAccount", (req, res) =>
 {
     const first_name = req.body.firstname
     const last_name = req.body.lastname
+
     const username = req.body.username
     const password = req.body.password
     const dob = req.body.dob
@@ -263,6 +264,7 @@ app.post("/createAccount", (req, res) =>
     })
 
     .catch(error => {
+
         if (error.code === '23505') {
             return res.status(400).json({ error: 'Username already taken.' });
         } else {
@@ -280,6 +282,7 @@ app.get('/editAccount', (req, res) => {
 
     knex('customers')
       .where('custid', id)
+
       .first()
 
       .then(customer => {
