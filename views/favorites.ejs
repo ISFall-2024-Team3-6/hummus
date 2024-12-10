@@ -47,12 +47,42 @@
 
 <div class="favorites-container">
   <div class="favorites-header">Favorites</div>
-  
-  <!-- Placeholder for future favorite items -->
-  <p>No favorites yet. Click "Add New" to start adding favorites!</p>
+    <h1 style="text-align: center;">Favorites</h1>
+    <table>
+      <thread>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Serving Size</th>
+          <th>Retail Price</th>
+          <th>Brand Name</th>
+        </tr>
+      </thread>
+      <tbody>
+        <% if (favoritehummus && favoritehummus.length > 0) { %>
+          <% favoritehummus.forEach(row => { %>
+            <tr>
+              <td>
+                <form action="/deleteFavorites/<%= row.hummusid%>" method="POST" style="display: inline;">
+                  <button type="submit" onclick="return confirm('Are you sure you want to delete this record?');">Remove</button>
+                </form>
+              </td>
+              <td><%= row.hummus_name %></td>
+              <td><%= row.hummus_description %></td>
+              <td><%= row.serving_size %></td>
+              <td><%= row.retail_price %></td>
+              <td><%= row.brand_name %></td>
+            </tr>
+            <% }) %>
+            <% } else { %>
+              <tr><td colspan="36">No favorites yet. Go to main home pageto start adding favorites!</td></tr>
+            <% } %>
+      </tbody>
+    </table>
+
 
   <!-- Add New Button -->
-  <button class="add-new-btn">Add New</button>
+  <!-- <button class="add-new-btn">Add New</button> -->
 </div>
 
 </body>
