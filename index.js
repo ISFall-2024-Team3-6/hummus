@@ -1,3 +1,4 @@
+const e = require("express");
 let express = require("express");
 const session = require('express-session');
 let app = express();
@@ -151,15 +152,6 @@ app.post('/favorite', (req, res) => {
     }
 });
 
-app.get('/favorites', (req, res) => {
-    if (req.session.loggedIn) {
-        knex.select('*').from('rating').then(data => {
-            res.render('rating', {favorites: data});
-        });
-    } else {
-        res.redirect('/login');
-    }
-});
 
 app.post('/removeFromFavorites', (req, res) => {
     const custid = req.session.userid;
@@ -195,38 +187,39 @@ app.get
 // GET ROUTE THAT WILL GRAB THE USER's FAVORITED HUMMUS WHEN THEY CLICK SAVE ON THE PAGE THAT DISPLAYS ALL THE HUMMUS FAVORTITES PAGE
 app.get('/favorites', async (req, res) => {
     // Check if the user is logged in - SECURITY
-    if (!req.session.user) {
+    if (!req.session.loggedIn) {
         return res.redirect('/login'); // Redirect to login if user is not logged in
     }
 
     // Retrieve the logged-in user's ID from the session
-    let userId = req.session.user.id;
+    let userId = req.session.userid;
 
     // Initialize variable to hold favorite hummuses
-    let favoriteHummus;
+    let favoritehummus;
     try {
         // Fetch favorite hummuses for the logged-in user
-        favoriteHummus = await knex('Rating as r')
+        favoritehummus = await knex('rating as r')
+    .distinct('h.hummusid', 'h.name', 'h.description', 'h.servingsize', 'h.retailprice', 'b.brandname')
     .innerJoin('hummus as h', 'r.hummusid', 'h.hummusid')
     .innerJoin('brand as b', 'h.brandid', 'b.brandid') // Join the brand table
-    .where('r.custid', id)
-    .select('h.hummusid', 'h.Name', 'h.Description', 
-        'h.servingSize', 'h.RetailPrice', 'b.BrandName'); // Select brand_name from the brand table
+    .where('r.custid', userId)
+    .select('h.hummusid', 'h.name', 'h.description', 
+        'h.servingsize', 'h.retailprice', 'b.brandname'); // Select brand_name from the brand table
     } catch (error) {
         console.error('Error fetching favorite hummuses:', error);
         return res.status(500).send('Internal Server Error'); // Return 500 status code if there's an error
     }
 
     // Render the 'favorites' page with the user's favorite hummuses
-    res.render('favorites', { favoriteHummus }); 
+    res.render('favorites', { favoritehummus }); 
 });
 
 
 // ROUTE TO DELETE A HUMMUS FROM FAVORITES LIST
 app.post('/deleteFavorites/:id', (req, res) => {
     const id = req.params.id
-    knex('Rating')
-    .where('hummusid', id)
+    knex('rating')
+    .where({hummusid: id, custid: req.session.userid})
     .del()
     .then(() => {
         res.redirect('/favorites'); 
@@ -238,8 +231,114 @@ app.post('/deleteFavorites/:id', (req, res) => {
         });
       });
 
+app.post("/createAccount", (req, res) =>
+{
+    const first_name = req.body.firstname
+    const last_name = req.body.lastname
+    const username = req.body.username
+    const password = req.body.password
+    const dob = req.body.dob
+    const email = req.body.email
+    const city = req.body.city
+    const state = req.body.state
+    const zip = req.body.zip
+    const phone = req.body.phone
     
+    knex('customers')
+    .insert({
+        firstname: first_name.toLowerCase(),
+        lastname: last_name.toLowerCase(),
+        username: username,
+        password: password,
+        dob: dob,
+        zip: zip,
+        city: city.toLowerCase(),
+        state: state.toLowerCase(),
+        email: email,
+        phone: phone
+    })
 
+    .then(() => {
+        res.redirect('/'); // Redirect to the character list page after adding
+    })
+
+    .catch(error => {
+        if (error.code === '23505') {
+            return res.status(400).json({ error: 'Username already taken.' });
+        } else {
+            console.error('Error Creating Account:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    });
+});
+
+app.get('/editAccount', (req, res) => {
+    if (!req.session.loggedIn) {
+        return res.redirect('/login');
+    }
+    let id = req.session.userid;
+
+    knex('customers')
+      .where('custid', id)
+      .first()
+
+      .then(customer => {
+        if (!customer) {
+          return res.status(404).send('Account not found');
+        }
+
+        res.render('editAccount', {customer})
+      })
+
+      .catch(error => {
+        console.error('Error fetching Character for editing:', error);
+        res.status(500).send('Internal Server Error');
+      });
+});
+
+app.post("/editAccount", (req, res) =>
+    {
+        const id = req.session.userid
+        const first_name = req.body.firstname
+        const last_name = req.body.lastname
+        const username = req.body.username
+        const password = req.body.password
+        const dob = req.body.dob
+        const email = req.body.email
+        const city = (req.body.city ? req.body.city : null)
+        const state = (req.body.state ? req.body.state.toLowerCase() : null)
+        const zip = (req.body.zip ? req.body.zip.toLowerCase() : null)
+        const phone = (req.body.phone ? req.body.phone : null)
+        
+        knex('customers')
+        .where('custid', id)
+        .update({
+            firstname: first_name.toLowerCase(),
+            lastname: last_name.toLowerCase(),
+            username: username,
+            password: password,
+            dob: dob,
+            zip: zip,
+            city: city,
+            state: state,
+            email: email,
+            phone: phone
+        })
+    
+        .then(() => {
+            res.redirect('/home');
+        })
+    
+        .catch(error => {
+            if (error.code === '23505') {
+                return res.status(400).json({ error: 'Username already taken.' });
+            }
+            else {
+            console.error('Error Editing Account:', error);
+            res.status(500).send('Internal Server Error');
+            }
+        });
+});
 
 
 app.listen(port, () => console.log(`Express App has started and server is listening on http://localhost:${port}`));

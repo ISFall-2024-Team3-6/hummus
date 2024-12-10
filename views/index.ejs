@@ -60,6 +60,16 @@
     }
 
 
+
+
+    .center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
   
   </style>
 </head>
@@ -134,7 +144,7 @@
 
 <!-- This is the main content of the page -->
   <div class="container">
-    <h2>Hummus List</h2>
+    <h2  style="text-align: center;">Hummus List</h2>
     <table>
       <tr>
         <th>Hummus Name</th>
@@ -147,14 +157,28 @@
        <% for (let i = 0; i < hummus.length; i++)
        { %>
         <tr>
-          <td><%= hummus[i].name %></td>
-          <td><%= hummus[i].description %></td>
+          <% function capitalize(str) { return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase(); } %>
+          <td><%= capitalize(hummus[i].name) %></td>
+          <td><%= capitalize(hummus[i].description) %></td>
           <td><%= hummus[i].retailprice %></td>
           <td><%= hummus[i].servingsize %></td>
-          <td><%= hummus[i].brandname %></td>
+          <td><%= capitalize(hummus[i].brandname) %></td>
         </tr>
        <%}%>
     </table>
+  </div>
+
+  <div class="center-content">
+      <p style="font-size: 25px;">Enter to win free hummus!</p>
+      <form action="https://www.paypal.com/donate" method="post" target="_top">
+        <input type="hidden" name="business" value="HPEFBZJLE8XNL" />
+        <input type="hidden" name="amount" value="5" />
+        <input type="hidden" name="no_recurring" value="0" />
+        <input type="hidden" name="item_name" value="Enter a Raffle to Win Free Hummus!" />
+        <input type="hidden" name="currency_code" value="USD" />
+        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+        <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+      </form>
   </div>
 
 </body>
