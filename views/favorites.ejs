@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Favorites</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="/style/styles.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -41,12 +43,43 @@
     .add-new-btn:hover {
       background-color: #45a049;
     }
+
+    
   </style>
 </head>
 <body>
 
-<div class="favorites-container">
-  <div class="favorites-header">Favorites</div>
+ <!-- Navigation bar -->
+<nav class="navbar navbar-expand-lg navbar-light navbar-custom fixed-top">
+  <img src="/images/Designer.png" alt="Nature's Hummus Logo" style="width: 50px; height: auto; margin-left: 10px;">
+  <div class="container-fluid">
+    <a class="navbar-brand" style="color: black;" href="/">Nature's Hummus</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+      <!-- This is the beginning of the "list" of items in our navigation bar -->
+      <ul class="navbar-nav">
+
+        <!-- This is the button to go back to the home page -->
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+      </ul>
+
+      <!-- I do not need this for this page -->
+      <!-- This last form is a link to the donation page, which is our call to action to every user that visits
+       the page 
+      <form action="/login" method="GET" class="d-inline ms-auto">
+        <button type="submit" class="btn btn-lg">Login</button>
+      </form> -->
+
+    </div>
+  </div>
+</nav>
+
+<div class="container">
 
     <h1 style="text-align: center;">Favorites</h1>
     <table>
@@ -68,11 +101,11 @@
                   <button type="submit" onclick="return confirm('Are you sure you want to delete this record?');">Remove</button>
                 </form>
               </td>
-              <td><%= row.hummus_name %></td>
-              <td><%= row.hummus_description %></td>
-              <td><%= row.serving_size %></td>
-              <td><%= row.retail_price %></td>
-              <td><%= row.brand_name %></td>
+              <td><%= row.Name %></td>
+              <td><%= row.Description %></td>
+              <td><%= row.ServingSize %></td>
+              <td><%= row.RetailPrice %></td>
+              <td><%= row.BrandName %></td>
             </tr>
             <% }) %>
             <% } else { %>

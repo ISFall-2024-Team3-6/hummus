@@ -115,7 +115,7 @@ app.get
 
 
 
-// GET ROUTE THAT WILL GRAB THE USER's FAVORITED HUMMUS WHEN THEY CLICK SAVE ON THE PAGE THAT DISPLAYS ALL THE HUMMUS
+// GET ROUTE THAT WILL GRAB THE USER's FAVORITED HUMMUS WHEN THEY CLICK SAVE ON THE PAGE THAT DISPLAYS ALL THE HUMMUS FAVORTITES PAGE
 app.get('/favorites', async (req, res) => {
     // Check if the user is logged in - SECURITY
     if (!req.session.user) {
@@ -129,12 +129,12 @@ app.get('/favorites', async (req, res) => {
     let favoriteHummus;
     try {
         // Fetch favorite hummuses for the logged-in user
-        favoriteHummus = await knex('customerFavorites as cf')
-    .innerJoin('hummus as h', 'cf.hummusid', 'h.hummusid')
+        favoriteHummus = await knex('Rating as r')
+    .innerJoin('hummus as h', 'r.hummusid', 'h.hummusid')
     .innerJoin('brand as b', 'h.brandid', 'b.brandid') // Join the brand table
-    .where('cf.custid', id)
-    .select('h.hummusid', 'h.hummus_name', 'h.hummus_description', 
-        'h.serving_size', 'h.retail_price', 'b.brand_name'); // Select brand_name from the brand table
+    .where('r.custid', id)
+    .select('h.hummusid', 'h.Name', 'h.Description', 
+        'h.servingSize', 'h.RetailPrice', 'b.BrandName'); // Select brand_name from the brand table
     } catch (error) {
         console.error('Error fetching favorite hummuses:', error);
         return res.status(500).send('Internal Server Error'); // Return 500 status code if there's an error
@@ -148,7 +148,7 @@ app.get('/favorites', async (req, res) => {
 // ROUTE TO DELETE A HUMMUS FROM FAVORITES LIST
 app.post('/deleteFavorites/:id', (req, res) => {
     const id = req.params.id
-    knex('rating')
+    knex('Rating')
     .where('hummusid', id)
     .del()
     .then(() => {
