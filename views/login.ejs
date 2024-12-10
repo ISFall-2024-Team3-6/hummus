@@ -1,76 +1,45 @@
+<!-- This is to create a session and go to the users homepage -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Login</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .login-container {
-      width: 300px;
-      padding: 20px;
-      background-color: #ffffff;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    }
-    .login-container h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #333;
-    }
-    .login-container label {
-      font-size: 0.9em;
-      color: #333;
-    }
-    .login-container input[type="text"],
-    .login-container input[type="password"] {
-      width: 100%;
-      padding: 8px;
-      margin: 8px 0;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-    .login-container input[type="submit"] {
-      width: 100%;
-      padding: 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1em;
-    }
-    .login-container input[type="submit"]:hover {
-      background-color: #45a049;
-    }
-    .login-container .error {
-      color: red;
-      font-size: 0.9em;
-    }
-    .login-container .create-account {
-      display: block;
-      margin-top: 15px;
-      text-align: center;
-      font-size: 0.9em;
-      color: #333;
-      text-decoration: none;
-    }
-    .login-container .create-account:hover {
-      color: #4CAF50;
-    }
-  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="/style/styles.css">
 </head>
 <body>
+  <!-- Navigation bar -->
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-custom fixed-top">
+  <img src="/images/Designer.png" alt="Nature's Hummus Logo" style="width: 50px; height: auto; margin-left: 10px;">
+  <div class="container-fluid">
+    <a class="navbar-brand" style="color: black;" href="/">Nature's Hummus</a>
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+      <!-- This is the beginning of the "list" of items in our navigation bar -->
+      <ul class="navbar-nav">
+
+        <!-- This is the button to go back to the home page -->
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+      </ul>
+
+      <!-- This last form is a link to the donation page, which is our call to action to every user that visits
+       the page -->
+      <form action="/login" method="GET" class="d-inline ms-auto">
+        <button type="submit" class="btn btn-lg">Login</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
 
 <div class="login-container">
   <h2>Login</h2>
@@ -81,13 +50,14 @@
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" required>
     
-    <input type="submit" value="Log In">
+    <button type="submit">Log In</button>
     
     <!-- Display error message if login fails -->
     <div class="error" id="error-message" style="display: none;">Invalid username or password</div>
     
     <!-- Link to create an account -->
-    <a href="/createAccount" class="create-account">Create an Account</a>
+    <a href="/createUser" class="create-account">Create an Account</a>
+
   </form>
 </div>
 

@@ -1,151 +1,79 @@
+<!-- This is to show the  -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Account & Product List</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      height: 100vh;
-      margin: 0;
-    }
-    .create-account-container {
-      width: 350px;
-      padding: 20px;
-      background-color: #ffffff;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-    }
-    .create-account-container h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #333;
-    }
-    .create-account-container label {
-      font-size: 0.9em;
-      color: #333;
-      display: block;
-      margin-top: 10px;
-    }
-    .create-account-container input[type="text"],
-    .create-account-container input[type="password"],
-    .create-account-container input[type="date"],
-    .create-account-container input[type="email"],
-    .create-account-container input[type="tel"] {
-      width: 100%;
-      padding: 8px;
-      margin: 5px 0;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-    .create-account-container input[type="submit"] {
-      width: 100%;
-      padding: 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1em;
-      margin-top: 15px;
-    }
-    .create-account-container input[type="submit"]:hover {
-      background-color: #45a049;
-    }
-    .create-account-container .back-to-login {
-      display: block;
-      text-align: center;
-      margin-top: 15px;
-      font-size: 0.9em;
-      color: #333;
-      text-decoration: none;
-    }
-    .create-account-container .back-to-login:hover {
-      color: #4CAF50;
-    }
-
-    /* Product table styles */
-    .product-table-container {
-      width: 90%;
-      max-width: 800px;
-      padding: 20px;
-      background-color: #ffffff;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    }
-    .product-table-container h2 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 20px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    table, th, td {
-      border: 1px solid #ddd;
-    }
-    th, td {
-      padding: 12px;
-      text-align: left;
-    }
-    th {
-      background-color: #4CAF50;
-      color: white;
-    }
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-    .heart-button {
-      font-size: 24px;
-      color: #ddd;
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      outline: none;
-      transition: color 0.3s ease;
-    }
-    .heart-button.filled {
-      color: #ff6666;
-    }
-  </style>
+  <title>List</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="/style/styles.css">
 </head>
 <body>
-  <div class="product-table-container">
-    <h2>Hummus List</h2>
+
+  <!-- Navigation bar -->
+<nav class="navbar navbar-expand-lg navbar-light navbar-custom fixed-top">
+  <img src="/images/Designer.png" alt="Nature's Hummus Logo" style="width: 50px; height: auto; margin-left: 10px;">
+  <div class="container-fluid">
+    <a class="navbar-brand" style="color: black;" href="/">Nature's Hummus</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+      <!-- This is the beginning of the "list" of items in our navigation bar -->
+      <ul class="navbar-nav">
+
+        <!-- This is the button to go back to the home page -->
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/favorites">Favorites</a>
+        </li>
+      </ul>
+
+      <div class="d-inline ms-auto">
+      <form action="/editAccount" method="get" class="d-inline ms-auto">
+        <button type="submit" class="btn btn-lg">Edit Account</button>
+      </form>
+      <form action="/logout" method="GET" class="d-inline ms-auto">
+        <button type="submit" class="btn btn-lg">Logout</button>
+      </form>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+
+
+  <div class="container">
+    <h2  style="text-align: center;">Choose Your Favorites</h2>
     <table>
       <tr>
-        <th>Favorite</th>
+        <th>Add To Favorites</th>
         <th>Hummus Name</th>
         <th>Description</th>
         <th>Retail Price</th>
         <th>Serving Size</th>
         <th>Brand Name</th>
-        <th>Rating</th>
       </tr>
       <!-- Create a for loop to display all the data from the database in a format similar to this -->
        <% for (let i = 0; i < hummus.length; i++)
        { %>
         <tr>
-          <td>
-            <button class="heart-button">&#9829;</button>        
-          </td>
-          <td><%= hummus[i].name %></td>
-          <td><%= hummus[i].description %></td>
-          <td><%= hummus[i].retail_price %></td>
-          <td><%= hummus[i].serving_size %></td>
-          <td><%= hummus[i].brand_name %></td>
-          <td><%= hummus[i].rating %></td>
+          <% function capitalize(str) { return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase(); } %>
+          <form action="/favorite" method="post">
+            <input type="hidden" name="hummusid" value="<%= hummus[i].hummusid %>">
+            <input type="hidden" name="custid" id="custid" value="<%= user %>">
+            <td>
+              <button type="submit" class="heart-button <%= favorites.includes(hummus[i].hummusid) ? 'filled' : '' %>">&#9829;</button>        
+            </td>
+            <td><%= capitalize(hummus[i].name) %></td>
+            <td><%= capitalize(hummus[i].description) %></td>
+            <td><%= hummus[i].retailprice %></td>
+            <td><%= hummus[i].servingsize %></td>
+            <td><%= capitalize(hummus[i].brandname) %></td>
+          </form>
         </tr>
        <%}%>
     </table>

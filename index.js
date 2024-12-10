@@ -1,3 +1,4 @@
+const e = require("express");
 let express = require("express");
 const session = require('express-session');
 let app = express();
@@ -29,7 +30,7 @@ app.use(session({
 const knex = require("knex") ({
     client : "pg",
     connection : {
-        host : process.env.RDS_HOSTNAME || "localhost",
+        host : process.env.RDS_HOSTNAME || "awseb-e-94ri3wcgd2-stack-awsebrdsdatabase-5xz6zugqzser.cp6ss68iifrg.us-east-1.rds.amazonaws.com",
         user : process.env.RDS_USERNAME || "hummusUser",
         password : process.env.RDS_PASSWORD || "Thisisforproject3!",
         database : process.env.RDS_DB_NAME || "ebdb",
@@ -38,11 +39,19 @@ const knex = require("knex") ({
     }
 })
 
-app.get("/", (req, res) =>
+
+app.get('/about/', (req, res) => {
+  res.render('about')
+});
+
+app.get("/", async (req, res) =>
 {
     try
     {
-        res.render("index");
+        let hummus = await knex.select('*').from('hummus')
+            .innerJoin('brand', 'hummus.brandid', 'brand.brandid');
+            
+        res.render("index", {hummus: hummus});
     }
     catch (err)
     {
@@ -51,15 +60,182 @@ app.get("/", (req, res) =>
     }
 });
 
-app.get("/createAccount", (req, res) => 
-{
-    res.render("createAccount")
+app.get('/login', (req, res) => {
+    res.render('login');
 });
+
+app.post('/login', async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    try {
+        // Query the user table to find the record
+        const user = await knex('customers')
+            .select('*')
+            .where({ username }) // Find user by username
+            .first(); // Returns the first matching record
+  
+        if (user && user.password === password) { // Replace with hashed password comparison in production
+            req.session.loggedIn = true;
+            req.session.username = username;
+            req.session.userid = user.custid;
+
+            res.redirect('/home');
+  
+        } else {
+          req.session.loggedIn = false;
+            res.render('login', { error: 'Invalid credentials' }); // Render login page with error
+        }
+    } catch (error) {
+        res.status(500).send('Database query failed: ' + error.message);
+    }
+});
+
+app.get('/createUser', (req, res) => {
+    res.render('createAccount');
+});
+
+app.post('/createUser', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        const user = await knex('users').where({ username }).first();
+        if (user) {
+            return res.status(400).send('User already exists');
+        }
+        await knex('users').insert({ username, password });
+        res.redirect('/login');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+app.get('/home', async (req, res) => {
+    if (req.session.loggedIn) {
+        // Pull out the username from the session to find the favorites
+        const loggedUsername = req.session.username;
+
+        try {
+            let data = await knex.select('*')
+                .from('customers')
+                .innerJoin('rating', 'customers.custid', 'rating.custid')
+                .where('username', loggedUsername)
+                .pluck('rating.hummusid');
+
+            let hummus = await knex.select('*').from('hummus')
+                .innerJoin('brand', 'hummus.brandid', 'brand.brandid');
+            
+            res.render('home', { favorites: data, hummus: hummus, user: req.session.userid });
+        } catch (error) {
+            console.log(error);
+            res.status(500).send('Database query failed: ' + error.message);
+        }
+    } else {
+        res.redirect('/login');
+    }
+});
+
+app.post('/favorite', (req, res) => {
+    if (req.session.loggedIn) {
+        knex('rating')
+        .insert({ 
+            custid: parseInt(req.body.custid), 
+            hummusid: parseInt(req.body.hummusid),
+            favorite: true,
+            rating: 5
+            })
+        .then(() => {
+            res.redirect('/home');
+        });
+    } else {
+        res.redirect('/login');
+    }
+});
+
+
+app.post('/removeFromFavorites', (req, res) => {
+    const custid = req.session.userid;
+    const hummusid = req.body.hummusid;
+
+    if (req.session.loggedIn) {
+        knex('rating')
+        .where({ custid: custid, hummusid: hummusid })
+        .del()
+        .then(() => {
+            res.redirect('/home');
+        });
+    } else {
+        res.redirect('/login');
+    }
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).send('Failed to log out');
+        }
+        res.redirect('/');
+    });
+});
+
+// ROUTE TO DISPLAY ALL FAVORTIES ON FAVORTIE PAGE
+app.get
+
+
+
+
+// GET ROUTE THAT WILL GRAB THE USER's FAVORITED HUMMUS WHEN THEY CLICK SAVE ON THE PAGE THAT DISPLAYS ALL THE HUMMUS FAVORTITES PAGE
+app.get('/favorites', async (req, res) => {
+    // Check if the user is logged in - SECURITY
+    if (!req.session.loggedIn) {
+        return res.redirect('/login'); // Redirect to login if user is not logged in
+    }
+
+    // Retrieve the logged-in user's ID from the session
+    let userId = req.session.userid;
+
+    // Initialize variable to hold favorite hummuses
+    let favoritehummus;
+    try {
+        // Fetch favorite hummuses for the logged-in user
+        favoritehummus = await knex('rating as r')
+    .distinct('h.hummusid', 'h.name', 'h.description', 'h.servingsize', 'h.retailprice', 'b.brandname')
+    .innerJoin('hummus as h', 'r.hummusid', 'h.hummusid')
+    .innerJoin('brand as b', 'h.brandid', 'b.brandid') // Join the brand table
+    .where('r.custid', userId)
+    .select('h.hummusid', 'h.name', 'h.description', 
+        'h.servingsize', 'h.retailprice', 'b.brandname'); // Select brand_name from the brand table
+    } catch (error) {
+        console.error('Error fetching favorite hummuses:', error);
+        return res.status(500).send('Internal Server Error'); // Return 500 status code if there's an error
+    }
+
+    // Render the 'favorites' page with the user's favorite hummuses
+    res.render('favorites', { favoritehummus }); 
+});
+
+
+// ROUTE TO DELETE A HUMMUS FROM FAVORITES LIST
+app.post('/deleteFavorites/:id', (req, res) => {
+    const id = req.params.id
+    knex('rating')
+    .where({hummusid: id, custid: req.session.userid})
+    .del()
+    .then(() => {
+        res.redirect('/favorites'); 
+    })
+    // Error Handling
+    .catch(error => {
+        console.error('Error deleting this Favorite:', error);
+        res.status(500).send('Internal Server Error');
+        });
+      });
 
 app.post("/createAccount", (req, res) =>
 {
-    const first_name = req.body.first_name
-    const last_name = req.body.last_name
+    const first_name = req.body.firstname
+    const last_name = req.body.lastname
+
     const username = req.body.username
     const password = req.body.password
     const dob = req.body.dob
@@ -71,8 +247,8 @@ app.post("/createAccount", (req, res) =>
     
     knex('customers')
     .insert({
-        first_name: first_name.toLowerCase(),
-        last_name: last_name.toLowerCase(),
+        firstname: first_name.toLowerCase(),
+        lastname: last_name.toLowerCase(),
         username: username,
         password: password,
         dob: dob,
@@ -88,16 +264,25 @@ app.post("/createAccount", (req, res) =>
     })
 
     .catch(error => {
-        console.error('Error Creating Account:', error);
-        res.status(500).send('Internal Server Error');
+
+        if (error.code === '23505') {
+            return res.status(400).json({ error: 'Username already taken.' });
+        } else {
+            console.error('Error Creating Account:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
     });
 });
 
-  app.get('/editAccount/:id', (req, res) => {
-    let id = req.params.id;
+app.get('/editAccount', (req, res) => {
+    if (!req.session.loggedIn) {
+        return res.redirect('/login');
+    }
+    let id = req.session.userid;
 
     knex('customers')
-      .where('id', id)
+      .where('custid', id)
+
       .first()
 
       .then(customer => {
@@ -112,46 +297,51 @@ app.post("/createAccount", (req, res) =>
         console.error('Error fetching Character for editing:', error);
         res.status(500).send('Internal Server Error');
       });
-  });
+});
 
-  app.post("/editAccount", (req, res) =>
+app.post("/editAccount", (req, res) =>
     {
-        const id = req.body.id
-        const first_name = req.body.first_name
-        const last_name = req.body.last_name
+        const id = req.session.userid
+        const first_name = req.body.firstname
+        const last_name = req.body.lastname
         const username = req.body.username
         const password = req.body.password
         const dob = req.body.dob
         const email = req.body.email
-        const city = req.body.city
-        const state = req.body.state
-        const zip = req.body.zip
-        const phone = req.body.phone
+        const city = (req.body.city ? req.body.city : null)
+        const state = (req.body.state ? req.body.state.toLowerCase() : null)
+        const zip = (req.body.zip ? req.body.zip.toLowerCase() : null)
+        const phone = (req.body.phone ? req.body.phone : null)
         
         knex('customers')
-        .where('id', id)
+        .where('custid', id)
         .update({
-            first_name: first_name.toLowerCase(),
-            last_name: last_name.toLowerCase(),
+            firstname: first_name.toLowerCase(),
+            lastname: last_name.toLowerCase(),
             username: username,
             password: password,
             dob: dob,
             zip: zip,
-            city: city.toLowerCase(),
-            state: state.toLowerCase(),
+            city: city,
+            state: state,
             email: email,
             phone: phone
         })
     
         .then(() => {
-            res.redirect('/');
+            res.redirect('/home');
         })
     
         .catch(error => {
+            if (error.code === '23505') {
+                return res.status(400).json({ error: 'Username already taken.' });
+            }
+            else {
             console.error('Error Editing Account:', error);
             res.status(500).send('Internal Server Error');
+            }
         });
-    });
+});
 
 
 app.listen(port, () => console.log(`Express App has started and server is listening on http://localhost:${port}`));
