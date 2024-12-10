@@ -12,9 +12,17 @@
 <body>
 
   <!-- Navigation bar -->
+<nav class="navbar navbar-expand-lg navbar-light navbar-custom fixed-top">
+  <img src="/images/Designer.png" alt="Nature's Hummus Logo" style="width: 50px; height: auto; margin-left: 10px;">
+  <div class="container-fluid">
+    <a class="navbar-brand" style="color: black;" href="/">Nature's Hummus</a>
+
+
+  <!-- Navigation bar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="/home">Hummus Project</a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -25,21 +33,33 @@
 
         <!-- This is the button to go back to the home page -->
         <li class="nav-item">
+
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+
           <form action="/favorites/<%= user %>"></form>
           <a class="nav-link active" aria-current="page" href="/favorites">Favorites</a>
+
         </li>
       </ul>
 
       <!-- This last form is a link to the donation page, which is our call to action to every user that visits
        the page -->
+
+      <form action="/login" method="GET" class="d-inline ms-auto">
+        <button type="submit" class="btn btn-lg">Login</button>
+
       <form action="/logout" method="GET" class="d-inline ms-auto">
         <button type="submit" class="btn btn-lg">Logout</button>
+
       </form>
     </div>
   </div>
 </nav>
 
+
+  <div class="product-table-container">
   <div class="container">
+
     <h2>Hummus List</h2>
     <table>
       <tr>

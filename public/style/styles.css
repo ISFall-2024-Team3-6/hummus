@@ -7,14 +7,23 @@ body {
    flex-direction: column;
    height: 100vh;
    margin: 0;
+   overflow-x: hidden;
  }
  /* Container for centering content */
 .container {
    max-width: 1200px;
-   margin: 75px auto;
+   margin: 0 auto;
    padding: 20px;
    background: #fff;
    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+   padding-top: 25px;
+
+p {
+  margin: 10px 0;
+  padding: 0; 
+  line-height: 1.6;
+}
    padding-top: 150px;
 }
  .create-account-container {
@@ -52,7 +61,7 @@ body {
  .create-account-container input[type="submit"] {
    width: 100%;
    padding: 10px;
-   background-color: #4CAF50;
+   background-color: #FFA500;
    color: white;
    border: none;
    border-radius: 4px;
@@ -61,7 +70,7 @@ body {
    margin-top: 15px;
  }
  .create-account-container input[type="submit"]:hover {
-   background-color: #45a049;
+   background-color: #FFA500;
  }
  .create-account-container .back-to-login {
    display: block;
@@ -72,7 +81,7 @@ body {
    text-decoration: none;
  }
  .create-account-container .back-to-login:hover {
-   color: #4CAF50;
+   color: #FFA500;
  }
 
  /* Product table styles */
@@ -102,7 +111,7 @@ body {
    text-align: left;
  }
  th {
-   background-color: #4CAF50;
+   background-color: #FFA500;
    color: white;
  }
  tr:nth-child(even) {
@@ -158,7 +167,7 @@ body {
  .login-container input[type="submit"] {
    width: 100%;
    padding: 10px;
-   background-color: #4CAF50;
+   background-color: #FFA500;
    color: white;
    border: none;
    border-radius: 4px;
@@ -166,7 +175,7 @@ body {
    font-size: 1em;
  }
  .login-container input[type="submit"]:hover {
-   background-color: #45a049;
+   background-color: #FFA500;
  }
  .login-container .error {
    color: red;
@@ -181,5 +190,54 @@ body {
    text-decoration: none;
  }
  .login-container .create-account:hover {
-   color: #4CAF50;
+   color: #FFA500;
  }
+
+ .homepage-text {
+  margin-top: 25 px; /* Adjust the value as needed */
+}
+
+.navbar-custom {
+  background-color: #FFA500; /* This is a pretty orange color */
+}
+
+
+.navbar-custom {
+  background-color: #FFA500; /* Pretty orange color */ 
+  color: white; /* Ensure text is readable */
+}
+
+.navbar-custom .nav-link {
+  color: white; /* Ensure links are readable */
+}
+
+.navbar-custom .navbar-brand {
+  color: white; /* Ensure brand name is readable */
+}
+
+.navbar-custom .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  /* Ensure the icon is readable */
+}
+
+
+.image-container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+}
+
+.image-container .text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.5); /* Optional: Adds a background to the text for better readability */
+  padding: 10px;
+  border-radius: 5px;
+}
