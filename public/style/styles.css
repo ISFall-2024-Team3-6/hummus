@@ -1,0 +1,185 @@
+body {
+   font-family: Arial, sans-serif;
+   background-color: #f4f4f4;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   height: 100vh;
+   margin: 0;
+ }
+ /* Container for centering content */
+.container {
+   max-width: 1200px;
+   margin: 75px auto;
+   padding: 20px;
+   background: #fff;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   padding-top: 25px;
+}
+ .create-account-container {
+   width: 350px;
+   padding: 20px;
+   background-color: #ffffff;
+   border: 1px solid #ddd;
+   border-radius: 5px;
+   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+   margin-bottom: 20px;
+ }
+ .create-account-container h2 {
+   text-align: center;
+   margin-bottom: 20px;
+   color: #333;
+ }
+ .create-account-container label {
+   font-size: 0.9em;
+   color: #333;
+   display: block;
+   margin-top: 10px;
+ }
+ .create-account-container input[type="text"],
+ .create-account-container input[type="password"],
+ .create-account-container input[type="date"],
+ .create-account-container input[type="email"],
+ .create-account-container input[type="tel"] {
+   width: 100%;
+   padding: 8px;
+   margin: 5px 0;
+   border: 1px solid #ddd;
+   border-radius: 4px;
+   box-sizing: border-box;
+ }
+ .create-account-container input[type="submit"] {
+   width: 100%;
+   padding: 10px;
+   background-color: #4CAF50;
+   color: white;
+   border: none;
+   border-radius: 4px;
+   cursor: pointer;
+   font-size: 1em;
+   margin-top: 15px;
+ }
+ .create-account-container input[type="submit"]:hover {
+   background-color: #45a049;
+ }
+ .create-account-container .back-to-login {
+   display: block;
+   text-align: center;
+   margin-top: 15px;
+   font-size: 0.9em;
+   color: #333;
+   text-decoration: none;
+ }
+ .create-account-container .back-to-login:hover {
+   color: #4CAF50;
+ }
+
+ /* Product table styles */
+ .product-table-container {
+   width: 90%;
+   max-width: 800px;
+   padding: 20px;
+   background-color: #ffffff;
+   border: 1px solid #ddd;
+   border-radius: 5px;
+   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+ }
+ .product-table-container h2 {
+   text-align: center;
+   color: #333;
+   margin-bottom: 20px;
+ }
+ table {
+   width: 100%;
+   border-collapse: collapse;
+ }
+ table, th, td {
+   border: 1px solid #ddd;
+ }
+ th, td {
+   padding: 12px;
+   text-align: left;
+ }
+ th {
+   background-color: #4CAF50;
+   color: white;
+ }
+ tr:nth-child(even) {
+   background-color: #f9f9f9;
+ }
+ .heart-button {
+   font-size: 24px;
+   color: #ddd;
+   background-color: transparent;
+   border: none;
+   cursor: pointer;
+   outline: none;
+   transition: color 0.3s ease;
+ }
+ .heart-button.filled {
+   color: #ff6666;
+ }
+ body {
+   font-family: Arial, sans-serif;
+   background-color: #f4f4f4;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   margin: 0;
+ }
+ .login-container {
+   width: 300px;
+   padding: 20px;
+   background-color: #ffffff;
+   border: 1px solid #ddd;
+   border-radius: 5px;
+   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+ }
+ .login-container h2 {
+   text-align: center;
+   margin-bottom: 20px;
+   color: #333;
+ }
+ .login-container label {
+   font-size: 0.9em;
+   color: #333;
+ }
+ .login-container input[type="text"],
+ .login-container input[type="password"] {
+   width: 100%;
+   padding: 8px;
+   margin: 8px 0;
+   border: 1px solid #ddd;
+   border-radius: 4px;
+   box-sizing: border-box;
+ }
+ .login-container input[type="submit"] {
+   width: 100%;
+   padding: 10px;
+   background-color: #4CAF50;
+   color: white;
+   border: none;
+   border-radius: 4px;
+   cursor: pointer;
+   font-size: 1em;
+ }
+ .login-container input[type="submit"]:hover {
+   background-color: #45a049;
+ }
+ .login-container .error {
+   color: red;
+   font-size: 0.9em;
+ }
+ .login-container .create-account {
+   display: block;
+   margin-top: 15px;
+   text-align: center;
+   font-size: 0.9em;
+   color: #333;
+   text-decoration: none;
+ }
+ .login-container .create-account:hover {
+   color: #4CAF50;
+ }
