@@ -260,10 +260,9 @@ app.post("/createAccount", (req, res) =>
     .catch(error => {
         if (error.code === '23505') {
             return res.status(400).json({ error: 'Username already taken.' });
-        }
-        else {
-        console.error('Error Creating Account:', error);
-        res.status(500).send('Internal Server Error');
+        } else {
+            console.error('Error Creating Account:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
     });
 });
