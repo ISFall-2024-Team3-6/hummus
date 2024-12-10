@@ -233,8 +233,102 @@ app.post('/deleteFavorites/:id', (req, res) => {
         });
       });
 
+app.post("/createAccount", (req, res) =>
+{
+    const first_name = req.body.first_name
+    const last_name = req.body.last_name
+    const username = req.body.username
+    const password = req.body.password
+    const dob = req.body.dob
+    const email = req.body.email
+    const city = req.body.city
+    const state = req.body.state
+    const zip = req.body.zip
+    const phone = req.body.phone
     
+    knex('customers')
+    .insert({
+        first_name: first_name.toLowerCase(),
+        last_name: last_name.toLowerCase(),
+        username: username,
+        password: password,
+        dob: dob,
+        zip: zip,
+        city: city.toLowerCase(),
+        state: state.toLowerCase(),
+        email: email,
+        phone: phone
+    })
 
+    .then(() => {
+        res.redirect('/'); // Redirect to the character list page after adding
+    })
+
+    .catch(error => {
+        console.error('Error Creating Account:', error);
+        res.status(500).send('Internal Server Error');
+    });
+});
+
+app.get('/editAccount/:id', (req, res) => {
+    let id = req.params.id;
+
+    knex('customers')
+      .where('id', id)
+      .first()
+
+      .then(customer => {
+        if (!customer) {
+          return res.status(404).send('Account not found');
+        }
+
+        res.render('editAccount', {customer})
+      })
+
+      .catch(error => {
+        console.error('Error fetching Character for editing:', error);
+        res.status(500).send('Internal Server Error');
+      });
+});
+
+app.post("/editAccount", (req, res) =>
+    {
+        const id = req.body.id
+        const first_name = req.body.first_name
+        const last_name = req.body.last_name
+        const username = req.body.username
+        const password = req.body.password
+        const dob = req.body.dob
+        const email = req.body.email
+        const city = req.body.city
+        const state = req.body.state
+        const zip = req.body.zip
+        const phone = req.body.phone
+        
+        knex('customers')
+        .where('id', id)
+        .update({
+            first_name: first_name.toLowerCase(),
+            last_name: last_name.toLowerCase(),
+            username: username,
+            password: password,
+            dob: dob,
+            zip: zip,
+            city: city.toLowerCase(),
+            state: state.toLowerCase(),
+            email: email,
+            phone: phone
+        })
+    
+        .then(() => {
+            res.redirect('/');
+        })
+    
+        .catch(error => {
+            console.error('Error Editing Account:', error);
+            res.status(500).send('Internal Server Error');
+        });
+});
 
 
 app.listen(port, () => console.log(`Express App has started and server is listening on http://localhost:${port}`));
