@@ -39,11 +39,12 @@
 <div class="create-account-container">
   <h2>Edit Account Information</h2>
   <form action="/editAccount" method="POST">
+    <% function capitalize(str) { return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase(); } %>
     <label for="first_name">First Name:</label>
-    <input type="text" id="first_name" name="firstname" value= <%= customer.firstname%> required>
+    <input type="text" id="first_name" name="firstname" value= <%= capitalize(customer.firstname)%> required>
 
     <label for="last_name">Last Name:</label>
-    <input type="text" id="last_name" name="lastname" value= <%= customer.lastname %> required>
+    <input type="text" id="last_name" name="lastname" value= <%= capitalize(customer.lastname) %> required>
 
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" value= <%= customer.username %> required>
