@@ -142,11 +142,12 @@
        <% for (let i = 0; i < hummus.length; i++)
        { %>
         <tr>
-          <td><%= hummus[i].name %></td>
-          <td><%= hummus[i].description %></td>
+          <% function capitalize(str) { return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase(); } %>
+          <td><%= capitalize(hummus[i].name) %></td>
+          <td><%= capitalize(hummus[i].description) %></td>
           <td><%= hummus[i].retailprice %></td>
           <td><%= hummus[i].servingsize %></td>
-          <td><%= hummus[i].brandname %></td>
+          <td><%= capitalize(hummus[i].brandname) %></td>
         </tr>
        <%}%>
     </table>

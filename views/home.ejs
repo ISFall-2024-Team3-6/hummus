@@ -27,20 +27,19 @@
 
         <!-- This is the button to go back to the home page -->
         <li class="nav-item">
-
-          <form action="/favorites/<%= user %>"></form>
           <a class="nav-link active" aria-current="page" href="/favorites">Favorites</a>
-
-        </li>
-        <li>
-          <a class="nav-link active" aria-current="page" href="/editAccount">Edit Account</a>
         </li>
       </ul>
 
+      <div class="d-inline ms-auto">
+      <form action="/editAccount" method="get" class="d-inline ms-auto">
+        <button type="submit" class="btn btn-lg">Edit Account</button>
+      </form>
       <form action="/logout" method="GET" class="d-inline ms-auto">
         <button type="submit" class="btn btn-lg">Logout</button>
-
       </form>
+      </div>
+
     </div>
   </div>
 </nav>
@@ -57,31 +56,24 @@
         <th>Retail Price</th>
         <th>Serving Size</th>
         <th>Brand Name</th>
-        <th>Remove From Favorites</th>
       </tr>
       <!-- Create a for loop to display all the data from the database in a format similar to this -->
        <% for (let i = 0; i < hummus.length; i++)
        { %>
         <tr>
+          <% function capitalize(str) { return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase(); } %>
           <form action="/favorite" method="post">
             <input type="hidden" name="hummusid" value="<%= hummus[i].hummusid %>">
             <input type="hidden" name="custid" id="custid" value="<%= user %>">
             <td>
               <button type="submit" class="heart-button <%= favorites.includes(hummus[i].hummusid) ? 'filled' : '' %>">&#9829;</button>        
             </td>
-            <td><%= hummus[i].name %></td>
-            <td><%= hummus[i].description %></td>
+            <td><%= capitalize(hummus[i].name) %></td>
+            <td><%= capitalize(hummus[i].description) %></td>
             <td><%= hummus[i].retailprice %></td>
             <td><%= hummus[i].servingsize %></td>
-            <td><%= hummus[i].brandname %></td>
+            <td><%= capitalize(hummus[i].brandname) %></td>
           </form>
-          <td>
-            <form action="/removeFromFavorites" method="post">
-              <input type="hidden" name="hummusid" value="<%= hummus[i].hummusid %>">
-              <input type="hidden" name="custid" id="custid" value="<%= user %>">
-              <button type="submit">Remove</button>
-            </form>
-          </td>
         </tr>
        <%}%>
     </table>

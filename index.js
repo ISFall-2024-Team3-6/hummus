@@ -300,10 +300,10 @@ app.post("/editAccount", (req, res) =>
         const password = req.body.password
         const dob = req.body.dob
         const email = req.body.email
-        const city = req.body.city
-        const state = req.body.state
-        const zip = req.body.zip
-        const phone = req.body.phone
+        const city = (req.body.city ? req.body.city : null)
+        const state = (req.body.state ? req.body.state.toLowerCase() : null)
+        const zip = (req.body.zip ? req.body.zip.toLowerCase() : null)
+        const phone = (req.body.phone ? req.body.phone : null)
         
         knex('customers')
         .where('custid', id)
@@ -314,14 +314,14 @@ app.post("/editAccount", (req, res) =>
             password: password,
             dob: dob,
             zip: zip,
-            city: city.toLowerCase(),
-            state: state.toLowerCase(),
+            city: city,
+            state: state,
             email: email,
             phone: phone
         })
     
         .then(() => {
-            res.redirect('/');
+            res.redirect('/home');
         })
     
         .catch(error => {
