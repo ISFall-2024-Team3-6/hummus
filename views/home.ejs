@@ -6,6 +6,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>List</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="/style/styles.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -123,35 +125,73 @@
   </style>
 </head>
 <body>
-  <div class="product-table-container">
+
+  <!-- Navigation bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/home">Hummus Project</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+      <!-- This is the beginning of the "list" of items in our navigation bar -->
+      <ul class="navbar-nav">
+
+        <!-- This is the button to go back to the home page -->
+        <li class="nav-item">
+          <form action="/favorites/<%= user %>"></form>
+          <a class="nav-link active" aria-current="page" href="/favorites">Favorites</a>
+        </li>
+      </ul>
+
+      <!-- This last form is a link to the donation page, which is our call to action to every user that visits
+       the page -->
+      <form action="/logout" method="GET" class="d-inline ms-auto">
+        <button type="submit" class="btn btn-lg">Logout</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+  <div class="container">
     <h2>Hummus List</h2>
     <table>
       <tr>
-        <th>Favorite</th>
+        <th>Add To Favorites</th>
         <th>Hummus Name</th>
         <th>Description</th>
         <th>Retail Price</th>
         <th>Serving Size</th>
         <th>Brand Name</th>
         <th>Rating</th>
+        <th>Remove From Favorites</th>
       </tr>
       <!-- Create a for loop to display all the data from the database in a format similar to this -->
        <% for (let i = 0; i < hummus.length; i++)
        { %>
-        <form action="/favorite">
-        <input type="hidden" name="hummus_id" value="<%= hummus[i].hummusid %>">
         <tr>
+          <form action="/favorite" method="post">
+            <input type="hidden" name="hummusid" value="<%= hummus[i].hummusid %>">
+            <input type="hidden" name="custid" id="custid" value="<%= user %>">
+            <td>
+              <button type="submit" class="heart-button <%= favorites.includes(hummus[i].hummusid) ? 'filled' : '' %>">&#9829;</button>        
+            </td>
+            <td><%= hummus[i].name %></td>
+            <td><%= hummus[i].description %></td>
+            <td><%= hummus[i].retail_price %></td>
+            <td><%= hummus[i].serving_size %></td>
+            <td><%= hummus[i].brand_name %></td>
+            <td></td>
+          </form>
           <td>
-            <button type="submit" class="heart-button">&#9829;</button>        
+            <form action="/removeFromFavorites" method="post">
+              <input type="hidden" name="hummusid" value="<%= hummus[i].hummusid %>">
+              <input type="hidden" name="custid" id="custid" value="<%= user %>">
+              <button type="submit">Remove</button>
+            </form>
           </td>
-          <td><%= hummus[i].name %></td>
-          <td><%= hummus[i].description %></td>
-          <td><%= hummus[i].retail_price %></td>
-          <td><%= hummus[i].serving_size %></td>
-          <td><%= hummus[i].brand_name %></td>
-          <td><%= hummus[i].rating %></td>
         </tr>
-        </form>
        <%}%>
     </table>
   </div>
