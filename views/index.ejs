@@ -9,8 +9,9 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="/style/styles.css">
 </head>
-<body>
 
+
+<body>
 <!-- Navigation bar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container-fluid">
@@ -68,9 +69,9 @@
         <tr>
           <td><%= hummus[i].name %></td>
           <td><%= hummus[i].description %></td>
-          <td><%= hummus[i].retail_price %></td>
-          <td><%= hummus[i].serving_size %></td>
-          <td><%= hummus[i].brand_name %></td>
+          <td><%= hummus[i].retailprice %></td>
+          <td><%= hummus[i].servingsize %></td>
+          <td><%= hummus[i].brandname %></td>
         </tr>
        <%}%>
     </table>
