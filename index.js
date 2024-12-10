@@ -38,11 +38,14 @@ const knex = require("knex") ({
     }
 })
 
-app.get("/", (req, res) =>
+app.get("/", async (req, res) =>
 {
     try
     {
-        res.render("index", {hummus: []});
+        let hummus = await knex.select('*').from('hummus')
+            .innerJoin('brand', 'hummus.brandid', 'brand.brandid');
+            
+        res.render("index", {hummus: hummus});
     }
     catch (err)
     {
@@ -58,9 +61,10 @@ app.get('/login', (req, res) => {
 app.post('/login', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
+
     try {
         // Query the user table to find the record
-        const user = await knex('') // TODO change to correct table
+        const user = await knex('customers')
             .select('*')
             .where({ username }) // Find user by username
             .first(); // Returns the first matching record
@@ -68,7 +72,9 @@ app.post('/login', async (req, res) => {
         if (user && user.password === password) { // Replace with hashed password comparison in production
             req.session.loggedIn = true;
             req.session.username = username;
-            res.render('home', { user : req.session.loggedIn });
+            req.session.userid = user.custid;
+
+            res.redirect('/home');
   
         } else {
           req.session.loggedIn = false;
@@ -98,16 +104,82 @@ app.post('/createUser', async (req, res) => {
     }
 });
 
-app.get('/home', (req, res) => {
+app.get('/home', async (req, res) => {
     if (req.session.loggedIn) {
-        knex.select('*').from('hummus').then(data => {
-            res.render('home', {hummus: data});
+        // Pull out the username from the session to find the favorites
+        const loggedUsername = req.session.username;
+
+        try {
+            let data = await knex.select('*')
+                .from('customers')
+                .innerJoin('rating', 'customers.custid', 'rating.custid')
+                .where('username', loggedUsername)
+                .pluck('rating.hummusid');
+
+            let hummus = await knex.select('*').from('hummus')
+                .innerJoin('brand', 'hummus.brandid', 'brand.brandid');
+            
+            res.render('home', { favorites: data, hummus: hummus, user: req.session.userid });
+        } catch (error) {
+            console.log(error);
+            res.status(500).send('Database query failed: ' + error.message);
+        }
+    } else {
+        res.redirect('/login');
+    }
+});
+
+app.post('/favorite', (req, res) => {
+    if (req.session.loggedIn) {
+        knex('rating')
+        .insert({ 
+            custid: parseInt(req.body.custid), 
+            hummusid: parseInt(req.body.hummusid),
+            favorite: true,
+            rating: 5
+            })
+        .then(() => {
+            res.redirect('/home');
         });
     } else {
         res.redirect('/login');
     }
 });
 
+app.get('/favorites', (req, res) => {
+    if (req.session.loggedIn) {
+        knex.select('*').from('rating').then(data => {
+            res.render('rating', {favorites: data});
+        });
+    } else {
+        res.redirect('/login');
+    }
+});
+
+app.post('/removeFromFavorites', (req, res) => {
+    const custid = req.session.userid;
+    const hummusid = req.body.hummusid;
+
+    if (req.session.loggedIn) {
+        knex('rating')
+        .where({ custid: custid, hummusid: hummusid })
+        .del()
+        .then(() => {
+            res.redirect('/home');
+        });
+    } else {
+        res.redirect('/login');
+    }
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).send('Failed to log out');
+        }
+        res.redirect('/');
+    });
+});
 
 // ROUTE TO DISPLAY ALL FAVORTIES ON FAVORTIE PAGE
 app.get

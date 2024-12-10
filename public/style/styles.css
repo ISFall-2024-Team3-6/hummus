@@ -16,6 +16,7 @@ body {
    padding: 20px;
    background: #fff;
    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
    padding-top: 25px;
 
 p {
@@ -23,6 +24,7 @@ p {
   padding: 0; 
   line-height: 1.6;
 }
+   padding-top: 150px;
 }
  .create-account-container {
    width: 350px;
