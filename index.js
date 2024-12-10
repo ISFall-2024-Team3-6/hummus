@@ -71,14 +71,14 @@ app.post("/createAccount", (req, res) =>
     
     knex('customers')
     .insert({
-        first_name: first_name.toUpperCase(), // Ensure first name is uppercase
-        last_name: last_name.toUpperCase(), // Ensure last name is uppercase
+        first_name: first_name.toLowerCase(),
+        last_name: last_name.toLowerCase(),
         username: username,
         password: password,
         dob: dob,
         zip: zip,
-        city: city,
-        state: state,
+        city: city.toLowerCase(),
+        state: state.toLowerCase(),
         email: email,
         phone: phone
     })
@@ -93,17 +93,14 @@ app.post("/createAccount", (req, res) =>
     });
 });
 
-  //This is our route to the editCharacter page
   app.get('/editAccount/:id', (req, res) => {
     let id = req.params.id;
 
-    // Query the Characters by ID first, so we only get the character we want to edit
     knex('customers')
       .where('id', id)
       .first()
 
       .then(customer => {
-        //If we don't find the character, we want to send a 404 error that they aren't found
         if (!customer) {
           return res.status(404).send('Account not found');
         }
@@ -134,20 +131,20 @@ app.post("/createAccount", (req, res) =>
         knex('customers')
         .where('id', id)
         .update({
-            first_name: first_name.toUpperCase(), // Ensure first name is uppercase
-            last_name: last_name.toUpperCase(), // Ensure last name is uppercase
+            first_name: first_name.toLowerCase(),
+            last_name: last_name.toLowerCase(),
             username: username,
             password: password,
             dob: dob,
             zip: zip,
-            city: city,
-            state: state,
+            city: city.toLowerCase(),
+            state: state.toLowerCase(),
             email: email,
             phone: phone
         })
     
         .then(() => {
-            res.redirect('/'); // Redirect to the character list page after adding
+            res.redirect('/');
         })
     
         .catch(error => {
