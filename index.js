@@ -38,11 +38,14 @@ const knex = require("knex") ({
     }
 })
 
-app.get("/", (req, res) =>
+app.get("/", async (req, res) =>
 {
     try
     {
-        res.render("index", {hummus: []});
+        let hummus = await knex.select('*').from('hummus')
+            .innerJoin('brand', 'hummus.brandid', 'brand.brandid');
+            
+        res.render("index", {hummus: hummus});
     }
     catch (err)
     {
@@ -71,7 +74,6 @@ app.post('/login', async (req, res) => {
             req.session.username = username;
             req.session.userid = user.custid;
 
-            console.log("This is the users user found " + JSON.stringify(user));
             res.redirect('/home');
   
         } else {
@@ -171,8 +173,12 @@ app.post('/removeFromFavorites', (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-    req.session.destroy(alert("You have been logged out"));
-    res.redirect('/');
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).send('Failed to log out');
+        }
+        res.redirect('/');
+    });
 });
 
 // ROUTE TO DISPLAY ALL FAVORTIES ON FAVORTIE PAGE
